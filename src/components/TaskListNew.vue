@@ -30,21 +30,25 @@
 				validate_error: false,
 			}
 		},
-		computed: {
-
-		},
 		methods: {
+			/**
+			 * Изменение цвета
+			 * @param event
+			 */
 			changeColor(event) {
 				const target = event.target;
 				this.color_active = target.dataset.colorId;
 			},
+			/**
+			 * Добавление задачи
+			 */
 			addItem() {
 				const name = this.task_name.trim();
 				if (name === '') {
 					this.validate_error = true;
 				} else {
 					this.$store.commit('newTask', {
-						value: name,
+						name: name,
 						color_id: this.color_active,
 					});
 					this.task_name = '';

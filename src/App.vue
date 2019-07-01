@@ -18,24 +18,39 @@
 			TaskList,
 		},
 		computed: {
+			/**
+			 * Подсчет выполненных задач
+			 */
 			count_delete_task() {
-				return Object.keys(this.$store.state.delete_task).length
+				return Object.keys(this.$store.state.done_task).length
 			}
 		},
 		methods: {
+			/**
+			 * Удаление выполненных задач
+			 */
 			deleteTask() {
 				this.$store.commit('deleteTask');
 			}
 		},
+
+		/**
+		 * При готовности приложения, получаем из localStorage данные по списку задач
+		 */
 		mounted() {
 			const task_list = localStorage.getItem('task_list');
-			if (task_list) {
-				try {
-					this.$store.commit('restorationTaskLis', JSON.parse(task_list));
+			const done_task_list = localStorage.getItem('done_task');
 
+			if (task_list && done_task_list) {
+				try {
+					this.$store.commit('restorationTaskList', {
+						task_list: JSON.parse(task_list),
+						done_task_list: JSON.parse(done_task_list)
+					});
 				} catch (error) {
 					console.error(error);
 					localStorage.removeItem('task_list');
+					localStorage.removeItem('done_task');
 				}
 			}
 		},

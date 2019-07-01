@@ -39,6 +39,10 @@
 			}
 		},
 		computed: {
+			/**
+			 * Определение активного цвета
+			 * @return {string}
+			 */
 			activeColor() {
 				if (this.is_edit) {
 					return this.edit_color;
@@ -46,9 +50,17 @@
 					return this.task.color;
 				}
 			},
+			/**
+			 * Определение HEX кодировки активного цвета
+			 * @return {*}
+			 */
 			activeColorHex(){
 				return this.colors[this.activeColor];
 			},
+			/**
+			 * Определения фона для задачи
+			 * @return {{"background-color": *}}
+			 */
 			background() {
 				return {
 					'background-color': this.hexToRGBA(this.activeColorHex, 0.85)
@@ -56,6 +68,12 @@
 			},
 		},
 		methods: {
+			/**
+			 * Функция перевода цвета из HEX в RGBA
+			 * @param hex {string} - цвет в формате HEX
+			 * @param alpha {number} - прозрачность
+			 * @return {string} - цвет в формате RGBA
+			 */
 			hexToRGBA(hex, alpha) {
 				var r = parseInt(hex.slice(1, 3), 16),
 					g = parseInt(hex.slice(3, 5), 16),
@@ -63,13 +81,23 @@
 
 				return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
 			},
+			/**
+			 * Изменение активного цвета
+			 * @param event
+			 */
 			changeColor(event) {
 				const target = event.target;
 				this.edit_color = target.dataset.colorId;
 			},
+			/**
+			 * Включение режима редактирование задачи
+			 */
 			editTask() {
 				this.is_edit = true;
 			},
+			/**
+			 * Выключение режима редактирование задачи
+			 */
 			handlerCloseEdit(event) {
 				const this_settings = this.$el.querySelector('.item__edit');
 				const target = event.target.closest('.item__edit');
@@ -79,9 +107,15 @@
 					this.edit_color = this.task.color;
 				}
 			},
+			/**
+			 * Выставление статуса задачи
+			 */
 			taskDone() {
 				this.$store.commit('taskDone', this.task_id);
 			},
+			/**
+			 * Сохранение изменений
+			 */
 			save() {
 				const task_name = this.input_task_name.trim();
 				if (task_name === '') {
@@ -89,7 +123,7 @@
 				} else {
 					this.$store.commit('editTask', {
 						id: this.task_id,
-						color: this.edit_color,
+						color_id: this.edit_color,
 						name: this.input_task_name,
 					});
 					this.is_edit = false;

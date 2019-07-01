@@ -14,23 +14,19 @@
 
 	export default {
 		name: "TaskList",
-		data() {
-			return{
-				//taskList: this.$store.state.task_list
-			}
+		components:{
+			TaskListItem,
+			TaskListNew,
 		},
 		computed:{
-			count(){
-				return this.$store.state.count;
-			},
+			/**
+			 * Получение списка задач
+			 * @return {state.task_list|{}}
+			 */
 			taskList(){
 				return this.$store.state.task_list
 			},
 		},
-		components:{
-			TaskListItem,
-			TaskListNew,
-		}
 	}
 </script>
 
